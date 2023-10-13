@@ -7,7 +7,7 @@ export default function AuthInput({name, type, placeholder, register, error}) {
         {placeholder}
       </label>
       <input
-        className="w-full dark:bg-dark_bg_3 text-base"
+        className="w-full dark:bg-dark_bg_3 text-base p-2"
         type={type}
         placeholder={placeholder}
         {...register(name)}
