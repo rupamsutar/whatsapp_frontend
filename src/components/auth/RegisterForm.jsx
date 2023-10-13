@@ -3,12 +3,15 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpSchema } from "../../utils/validation";
 import AuthInput from "./AuthInput";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PulseLoader } from "react-spinners";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logout, registerUser } from "../../features/userSlice";
 
 export default function RegisterForm() {
-  const {status} = useSelector((state) => state.user);
+  const {status, error} = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,8 +21,11 @@ export default function RegisterForm() {
     resolver: yupResolver(signUpSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async(data) => {
+    const res =await dispatch(registerUser({...data, picture: ""}));
+    if(res.payload.user) {
+      navigate('/')
+    }
   };
 
   return (
@@ -41,20 +47,34 @@ export default function RegisterForm() {
             error={errors?.name?.message}
           />
           <AuthInput
-            name="status"
+            name="email"
             type="text"
-            placeholder="Status"
+            placeholder="Email"
             register={register}
-            error={errors?.status?.message}
+            error={errors?.email?.message}
           />
-          <AuthInput
+           <AuthInput
             name="password"
             type="text"
             placeholder="Password"
             register={register}
             error={errors?.password?.message}
           />
-
+          <AuthInput
+            name="status"
+            type="text"
+            placeholder="Status"
+            register={register}
+            error={errors?.status?.message}
+          />
+         
+          {
+            error ? (
+              <div className="">
+                <p className="text-red-400">{error}</p>
+              </div>
+            ) : null
+          }
           <button
             className="w-full flex justify-center bg-green_1 text-gray-100 p-3 rounded-full tracking-wide font-semibold 
           focus:outline-none hover:bg-green_2 shadow-lg cursor-pointer transition ease-in duration-300 "
@@ -63,7 +83,7 @@ export default function RegisterForm() {
             {status === 'loading' ? <PulseLoader color="#fff" /> : "Sign Up"}
           </button>
           <p className="flex flex-col items-center justify-center mt-10 text-center text-md dark:text-dark_text_1">
-            <span>Have an account ?</span>
+            <span onClick={() => dispatch(logout())}>Have an account ?</span>
             <Link href='/login' className="hover:underline cursor-pointer">
               Sign in
             </Link>
