@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpSchema } from "../../utils/validation";
@@ -7,9 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { PulseLoader } from "react-spinners";
 import { Link, useNavigate } from "react-router-dom";
 import { logout, registerUser } from "../../features/userSlice";
+import Picture from "./Picture";
 
 export default function RegisterForm() {
-  const {status, error} = useSelector((state) => state.user);
+  const { status, error } = useSelector((state) => state.user);
+  const [picture, setPicture] = useState();
+  const [readablePicture, setReadablePicture] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -21,17 +24,19 @@ export default function RegisterForm() {
     resolver: yupResolver(signUpSchema),
   });
 
-  const onSubmit = async(data) => {
-    const res =await dispatch(registerUser({...data, picture: ""}));
-    if(res.payload.user) {
-      navigate('/')
+  const onSubmit = async (data) => {
+    const res = await dispatch(registerUser({ ...data, picture: "" }));
+    if (res.payload.user) {
+      navigate("/");
     }
   };
 
+  console.log("picture : ",picture, "readablePicture", readablePicture);
+
   return (
-    <div className="h-screen w-full flex items-center justify-center overflow-hidden">
+    <div className="min-h-screen w-full flex items-center justify-center overflow-hidden">
       {/* Container */}
-      <div className="max-w-md space-y-8 p-10 dark:bg-dark_bg_2 rounded-xl">
+      <div className="w-full max-w-md space-y-8 p-10 dark:bg-dark_bg_2 rounded-xl">
         {/*Heading*/}
         <div className="text-center dark:text-dark_text_1">
           <h2 className="mt-6 text-3xl font-bold">Welcome</h2>
@@ -53,7 +58,7 @@ export default function RegisterForm() {
             register={register}
             error={errors?.email?.message}
           />
-           <AuthInput
+          <AuthInput
             name="password"
             type="text"
             placeholder="Password"
@@ -63,28 +68,33 @@ export default function RegisterForm() {
           <AuthInput
             name="status"
             type="text"
-            placeholder="Status"
+            placeholder="Status (optional)"
             register={register}
             error={errors?.status?.message}
           />
-         
-          {
-            error ? (
-              <div className="">
-                <p className="text-red-400">{error}</p>
-              </div>
-            ) : null
-          }
+
+          {/* Picture */}
+          <Picture
+            readablePicture={readablePicture}
+            setReadablePicture={setReadablePicture}
+            setPicture={setPicture}
+          />
+
+          {error ? (
+            <div className="">
+              <p className="text-red-400">{error}</p>
+            </div>
+          ) : null}
           <button
             className="w-full flex justify-center bg-green_1 text-gray-100 p-3 rounded-full tracking-wide font-semibold 
           focus:outline-none hover:bg-green_2 shadow-lg cursor-pointer transition ease-in duration-300 "
             type="submit"
           >
-            {status === 'loading' ? <PulseLoader color="#fff" /> : "Sign Up"}
+            {status === "loading" ? <PulseLoader color="#fff" /> : "Sign Up"}
           </button>
           <p className="flex flex-col items-center justify-center mt-10 text-center text-md dark:text-dark_text_1">
             <span onClick={() => dispatch(logout())}>Have an account ?</span>
-            <Link href='/login' className="hover:underline cursor-pointer">
+            <Link href="/login" className="hover:underline cursor-pointer">
               Sign in
             </Link>
           </p>
