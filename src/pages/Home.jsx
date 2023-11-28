@@ -7,10 +7,10 @@ import { getConversations } from "../features/chatSlice";
 export default function Home() {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.user);
-  useEffect(() => {
 
+  // get conversation
+  useEffect(() => {
     if (user?.token) {
-      console.log("Rupam");
       dispatch(getConversations(user.token))
     }
   }, [])
