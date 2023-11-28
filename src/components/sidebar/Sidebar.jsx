@@ -13,7 +13,7 @@ const Sidebar = () => {
         {/* Notifications */}
         <Notifications />
         {/* Search */}
-        <Search searchLength={searchResults.length} /> 
+        <Search searchLength={searchResults.length} setSearchResults={setSearchResults}/> 
         {/* Conversations */}
         <Conversations />
     </div>

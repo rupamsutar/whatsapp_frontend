@@ -8,7 +8,6 @@ export const dateHandler = (date) => {
 
     const getDays = () => {
         let days = time.split(" ")[0];
-        console.log("Rupam : ", days);
         if (Number(days) < 8) {
             return now.subtract(Number(days), 'days').format('dddd');
         } else {
