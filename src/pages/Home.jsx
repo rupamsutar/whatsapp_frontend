@@ -13,7 +13,7 @@ export default function Home() {
     if (user?.token) {
       dispatch(getConversations(user.token))
     }
-  }, [])
+  }, []);
   return (
     <div className="min-h-screen dark:bg-dark_bg_1 flex items-center justify-center py-[19px] overflow-hidden">
       {/* Container */}

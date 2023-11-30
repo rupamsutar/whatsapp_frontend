@@ -1,45 +1,13 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import app from './app.js';
-import logger from './configs/logger.config.js';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
 
-dotenv.config({path: './config.env'});
-
-mongoose.connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    // useCreateIndex: true,
-    // useFindAndModify: false,                                           
-    useUnifiedTopology: true
-}).then(() => {
-    console.log("Connected to the database")
-})
-
-const port = process.env.PORT || 5500;
-
-const server = app.listen(port, () => {
-    logger.info(`Server is listening on PORT: ${port}.`);
-})
-
-const exitHandler = () => {
-    if (server) {
-        logger.info('server is closing 🌟💣...');
-    }
-    process.exit(1)
-}
-
-const unexpectedErrorHandler = (error) => {
-    logger.error(error);
-    exitHandler();
-}
-
-process.on('unhandledRejection', unexpectedErrorHandler);
-process.on('uncaughtException', unexpectedErrorHandler);
-
-// SIGTERM
-process.on("SIGTERM", () => {
-    if(server) {
-        logger.info('server is closing 🌟💣...');
-        process.exit(1);
-    }
-})
-
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
