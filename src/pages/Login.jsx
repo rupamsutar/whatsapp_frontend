@@ -69,8 +69,8 @@ export default function RegisterForm() {
             {status === "loading" ? <PulseLoader color="#fff" /> : "Sign In"}
           </button>
           <p className="flex flex-col items-center justify-center mt-10 text-center text-md dark:text-dark_text_1">
-            <span onClick={() => dispatch(logout())}>You do not have an account ?</span>
-            <Link href="/register" className="hover:underline cursor-pointer">
+            <span>You do not have an account ?</span>
+            <Link to='/register' className="hover:underline cursor-pointer">
               Sign up
             </Link>
           </p>

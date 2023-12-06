@@ -116,7 +116,7 @@ export default function RegisterForm() {
           </button>
           <p className="flex flex-col items-center justify-center mt-10 text-center text-md dark:text-dark_text_1">
             <span onClick={() => dispatch(logout())}>Have an account ?</span>
-            <Link href="/login" className="hover:underline cursor-pointer">
+            <Link to="/login" className="hover:underline cursor-pointer">
               Sign in
             </Link>
           </p>

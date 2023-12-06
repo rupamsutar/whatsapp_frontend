@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route exact path='/' element={token ? <Home /> : <Navigate to='/login' />}></Route>
-          <Route exact path='/login' element={<Login />}></Route>
+          <Route exact path='/login' element={!token ? <Login /> : <Navigate to='/' />}></Route>
           <Route exact path='/register' element={!token ? <Register /> : <Navigate to='/' />}></Route>
         </Routes>
       </BrowserRouter>
