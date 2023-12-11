@@ -14,8 +14,6 @@ import { upload } from "@testing-library/user-event/dist/upload";
 const cloud_name = process.env.REACT_APP_CLOUDINARY_NAME;
 const cloud_secret = process.env.REACT_APP_CLOUDINARY_SECRET;
 
-console.log("cloud_name :", cloud_name, "cloud_secret :", cloud_secret);
-
 export default function RegisterForm() {
   const { status, error } = useSelector((state) => state.user);
   const [picture, setPicture] = useState();

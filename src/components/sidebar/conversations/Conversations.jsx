@@ -1,16 +1,20 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import Conversation from './Conversation';
+import React from "react";
+import { useSelector } from "react-redux";
+import Conversation from "./Conversation";
 
 const Conversations = () => {
-    const {conversations} = useSelector(store => store.chat);
+  const { conversations, activeConversation } = useSelector((store) => store.chat);
   return (
-    <ul className="convos scrollbar">
-        {conversations.map((convo) => {
-            return <Conversation key={convo._id} convo={convo} />
+    <div className="convos scrollbar">
+      <ul>
+        {conversations && conversations
+        .filter((c) => c.latestMessage || c._id === activeConversation._id)
+        .map((convo) => {
+          return <Conversation key={convo._id} convo={convo} />;
         })}
-    </ul>
-  )
-}
+      </ul>
+    </div>
+  );
+};
 
-export default Conversations
+export default Conversations;

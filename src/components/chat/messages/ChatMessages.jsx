@@ -16,7 +16,6 @@ export default function ChatMessages() {
       <div className="scrollbar overflow_scrollbar overflow-auto py-2 px-[5%]">
         {messages &&
           messages.map((message) => {
-            console.log(user._id === message.sender._id)
             return <Message
               message={message}
               key={message._id}

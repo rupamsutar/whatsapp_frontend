@@ -9,8 +9,6 @@ export default function Home() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
-
-  console.log("active conversation", activeConversation);
   
   // get conversation
   useEffect(() => {
@@ -25,7 +23,7 @@ export default function Home() {
       <div className="container h-screen flex">
         {/* SideBar */}
         <Sidebar />
-        {activeConversation._id ? <ChatContainer /> : <WhatsappHome />}
+        {activeConversation?._id ? <ChatContainer /> : <WhatsappHome />}
       </div>
     </div>
   );

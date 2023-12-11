@@ -1,2 +1,3 @@
 import ChatActions from "./ChatActions";
-export {ChatActions}
+import EmojiPickerApp from "./EmojiPicker";
+export {ChatActions, EmojiPickerApp}
