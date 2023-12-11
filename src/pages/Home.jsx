@@ -18,9 +18,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-screen dark:bg-dark_bg_1 flex items-center justify-center py-[19px] overflow-hidden">
+    <div className="h-screen dark:bg-dark_bg_1 flex items-center justify-center  overflow-hidden">
       {/* Container */}
-      <div className="container h-screen flex">
+      <div className="container h-screen py-[19px] flex">
         {/* SideBar */}
         <Sidebar />
         {activeConversation?._id ? <ChatContainer /> : <WhatsappHome />}
