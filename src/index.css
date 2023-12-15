@@ -45,6 +45,10 @@
         overflow-y: auto;
         overflow-x: hidden;
     }
+
+    .online {
+      border: 2.5px solid #00a884
+    }
 }
 
 /* --------------ANITMATION----------------- */

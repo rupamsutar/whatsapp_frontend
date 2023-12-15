@@ -1,15 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../features/userSlice";
 import { Sidebar } from "../components/sidebar";
-import { getConversations } from "../features/chatSlice";
+import { getConversations, updateMessagesAndConversations } from "../features/chatSlice";
 import { ChatContainer, WhatsappHome } from "../components/chat";
+import SocketContext from "../context/SocketContext";
 
-export default function Home() {
+function Home({socket}) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
-  
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  // join user into the socket import
+    useEffect(() => {
+      socket.emit('join', user._id);
+
+      // Get Online Users
+      socket.on('get-online-users', (users) => {
+        console.log("online users", users);
+        setOnlineUsers(users)
+      });
+    }, [user]);
   // get conversation
   useEffect(() => {
     if (user?.token) {
@@ -17,14 +27,32 @@ export default function Home() {
     }
   }, []);
 
+  // Listening to received messages
+  useEffect(() => {
+    socket.on("receive message", (message) => {
+      dispatch(updateMessagesAndConversations(message))
+    });
+  }, []);
+
   return (
     <div className="h-screen dark:bg-dark_bg_1 flex items-center justify-center  overflow-hidden">
       {/* Container */}
       <div className="container h-screen py-[19px] flex">
         {/* SideBar */}
-        <Sidebar />
-        {activeConversation?._id ? <ChatContainer /> : <WhatsappHome />}
+        <Sidebar onlineUsers={onlineUsers} />
+        {activeConversation?._id ? <ChatContainer onlineUsers={onlineUsers} /> : <WhatsappHome />}
       </div>
     </div>
   );
 }
+
+const HomeWithSocket = (props) => {
+  return (
+    <SocketContext.Consumer>
+      {(socket) => {
+        return <Home {...props} socket={socket} />;
+      }}
+    </SocketContext.Consumer>
+  );
+};
+export default HomeWithSocket;
