@@ -4,7 +4,7 @@ import Notifications from './notifications/Notifications'
 import { Search, SearchResults } from './search'
 import {  Conversations } from './conversations'
 
-const Sidebar = () => {
+const Sidebar = ({onlineUsers}) => {
     const [searchResults, setSearchResults] = useState([]);
   
   return (
@@ -21,7 +21,7 @@ const Sidebar = () => {
           </>
         ) : (
           <>
-            <Conversations />
+            <Conversations onlineUsers={onlineUsers} />
           </>
         )}
         
